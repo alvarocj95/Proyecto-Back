@@ -18,6 +18,14 @@ let usuarioSchema = new mongoose.Schema({
     valoracion:{
         type: Number,
         default: null
+    },
+    plan:{
+        type: String,
+        enum: ['Básico', 'Premium', 'Profesional']
+    },
+    saldo:{
+        type: Number,
+        default: 0
     }
 })
 
