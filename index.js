@@ -8,6 +8,7 @@ const auth = require(__dirname + '/routes/auth');
 const videojuegos = require(__dirname + '/routes/videojuegos');
 const usuarios = require(__dirname + '/routes/usuarios');
 const transacciones = require(__dirname + '/routes/transacciones');
+const likes = require(__dirname + '/routes/likes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -61,6 +62,7 @@ app.use('/usuarios', usuarios);
 
 app.use('/transacciones', transacciones);
 
+app.use('/likes', likes);
 
 
 app.use((req, res, next) => {
