@@ -14,19 +14,30 @@ router.post('/', async (req, res) => {
     }
 });
 
-// router.get("/", (req, res) => {
-//     Transaccion.find()
-//       .then((resultado) => {
-//         if (resultado.length === 0) {
-//           res.status(404).send({ error: "No existen transacciones" });
-//         } else {
-//           res.status(200).send({ transacciones: resultado });
-//         }
-//       })
-//       .catch((error) => {
-//         res.status(500).send({ error: "Error interno del servidor" });
-//       });
-//   });
+
+router.get("/", (req, res) => {
+    Transaccion.find()
+      .populate({
+        path: "idVendedor"
+      })
+      .populate({
+        path: "idComprador"
+      })
+      .populate({
+        path: "idArticulo"
+      })
+      .then((resultado) => {
+        if (resultado.length === 0) {
+          res.status(404).send({ error: "No existen transacciones" });
+        } else {
+          res.status(200).send({ transacciones: resultado });
+        }
+      })
+      .catch((error) => {
+        res.status(500).send({ error: "Error interno del servidor" });
+      });
+})
+
 
 router.get('/:id', (req, res) => {
     try {
