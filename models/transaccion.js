@@ -31,6 +31,9 @@ let transaccionSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    propuesta:{
+        type: Number
+    },
     estado:{
         type: String,
         enum: ['Pendiente', 'Aceptada', 'Rechazada', 'Finalizada'],

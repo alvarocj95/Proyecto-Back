@@ -59,9 +59,21 @@ router.get('/:id', (req, res) => {
     }
 });
 
+
+router.get('/:id/total', (req, res) => {
+    const idArticulo = req.params.id;
+    Transaccion.countDocuments({ idArticulo: idArticulo })
+    .then((resultado) => {
+        res.json({ totalTransacciones: resultado });
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500).json({ error: 'Error del servidor' });
+    });
+});
+
 router.post('/:id/true', (req, res) => {
     const id = req.params.id;
-    const trueFalse = req.body;
   
     let estadoActualizado = 'Aceptada' ;
   
@@ -76,11 +88,24 @@ router.post('/:id/true', (req, res) => {
   
   router.post('/:id/false', (req, res) => {
     const id = req.params.id;
-    const trueFalse = req.body;
   
     let estadoActualizado = 'Rechazada';
   
     Transaccion.findByIdAndUpdate(id, { estado: estadoActualizado, okVendedor: false }, { new: true })
+      .then((resultado) => {
+        res.status(200).send({ transaccion: resultado });
+      })
+      .catch((error) => {
+        res.status(500).send({ error: 'Error interno del servidor' });
+      });
+  });
+
+  router.post('/:id/finalizar', (req, res) => {
+    const id = req.params.id;
+  
+    let estadoActualizado = 'Finalizada';
+  
+    Transaccion.findByIdAndUpdate(id, { estado: estadoActualizado }, { new: true })
       .then((resultado) => {
         res.status(200).send({ transaccion: resultado });
       })
