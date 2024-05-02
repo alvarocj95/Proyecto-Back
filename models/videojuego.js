@@ -41,6 +41,10 @@ let videojuegoSchema = new mongoose.Schema({
     ,
     imagenCuaternaria:{
         type: String
+    },
+    vendido:{
+        type: Boolean,
+        default: false
     }
 })
 

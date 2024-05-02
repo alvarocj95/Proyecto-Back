@@ -58,25 +58,7 @@ router.get("/:idUsuario/jugador", (req, res) => {
     });
 });
 
-//FUNCIONA NO BORRAR
-// router.post('/', (req, res) => {
-//     let videojuego = new Videojuego(req.body);
-//     const imagenBase64 = videojuego.imagenPrincipal;
-//     const imagenData = Buffer.from(imagenBase64, 'base64');
-//     const ruta = 'public/uploads/' + videojuego.titulo + '.jpg';
-//     fs.writeFile(ruta, imagenData, (error) => {
-//         if (error) {
-//             res.status(500).send({ error: 'Error guardando imagen' });
-//         }
-//     })
-//     videojuego.save()
-//         .then(() => {
-//             res.status(200).send({ videojuego: videojuego });
-//         })
-//         .catch(error => {
-//             res.status(500).send({ error: 'Error interno del servidor' });
-//         });
-// });
+
 
 router.post("/", (req, res) => {
   let videojuego = new Videojuego(req.body);
@@ -125,6 +107,20 @@ router.post("/", (req, res) => {
     })
     .catch((error) => {
       res.status(500).send({ error: "Error interno del servidor" });
+    });
+});
+
+
+router.post('/:id/vendido', (req, res) => {
+  const id = req.params.id;
+
+
+  Videojuego.findByIdAndUpdate(id, { vendido: true }, { new: true })
+    .then((resultado) => {
+      res.status(200).send({ videojuego: resultado });
+    })
+    .catch((error) => {
+      res.status(500).send({ error: 'Error interno del servidor' });
     });
 });
 

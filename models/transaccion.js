@@ -38,6 +38,16 @@ let transaccionSchema = new mongoose.Schema({
         type: String,
         enum: ['Pendiente', 'Aceptada', 'Rechazada', 'Finalizada'],
         default: 'Pendiente'
+    }, 
+    finalComprador:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'usuarios',
+        default: null
+    },
+    finalVendedor:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'usuarios',
+        default: null
     }
 })
 
