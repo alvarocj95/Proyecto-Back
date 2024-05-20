@@ -45,6 +45,13 @@ let videojuegoSchema = new mongoose.Schema({
     vendido:{
         type: Boolean,
         default: false
+    },
+    compania:{
+        type: String,
+        enum: ['Nintendo', 'PlayStation', 'Xbox', 'PC', 'Otros']
+    },
+    plataforma:{
+        type: String,
     }
 })
 

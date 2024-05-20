@@ -30,6 +30,7 @@ router.post('/login', async (req, res) => {
         
         const usuario = await Usuarios.findOne({ nombre: usuarioRecibido.nombre, password: usuarioRecibido.password });
 
+    
         if (usuario) {
             // req.session.usuario = usuario.nombre;
             return res.status(200).send({accessToken: auth.generarToken(usuario)});
