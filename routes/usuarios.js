@@ -3,6 +3,18 @@ let router = express.Router();
 const Usuarios = require('../models/usuario');
 const auth = require('../utils/auth');
 
+
+
+router.get('/todos', async (req, res) => {
+  try {
+    const usuarios = await Usuarios.find();
+    res.status(200).send({ usuarios });
+  } catch (error) {
+    res.status(500).send({ error: 'Error interno del servidor' });
+  }
+})
+
+
 router.get("/me", (req, res) => {
 
     let token = req.headers['authorization'];
@@ -16,7 +28,7 @@ router.get("/me", (req, res) => {
     res.status(200).send({ resultado : resultado.login });
   });
 
-  
+
 router.get('/:id', async (req, res) => {
     try {
         const resultado = await Usuarios.findById(req.params.id);
@@ -25,6 +37,16 @@ router.get('/:id', async (req, res) => {
         res.status(500).send({ error: 'Error interno del servidor' });
     }
 });
+
+router.get('/:id/imagen', async (req, res) => {
+    try {
+        const resultado = await Usuarios.findById(req.params.id);
+        res.status(200).send({ imagen: resultado.imagen });
+    } catch (error) {
+        res.status(500).send({ error: 'Error interno del servidor' });
+    }
+}); 
+
 
 router.put('/:id/saldo', async (req, res) => {
     const userId = req.params.id;

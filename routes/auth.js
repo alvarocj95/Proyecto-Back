@@ -5,35 +5,25 @@ const fs = require("fs");
 const auth = require('../utils/auth');
 
 
-// router.post('/login', async (req, res) => {
-//     try {
-//         const usuarioRecibido = new Usuarios(req.body);
-        
-//         const usuario = await Usuarios.findOne({ nombre: usuarioRecibido.nombre, password: usuarioRecibido.password });
-
-//         if (usuario) {
-//             req.session.usuario = usuario.nombre;
-//             return res.status(200).send('login');
-//         } else {
-//             return res.status(401).send({ error: "Usuario o contraseña incorrectos" });
-//         }
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).send('Error interno del servidor');
-//     }
-// });
-
-
 router.post('/login', async (req, res) => {
     try {
         const usuarioRecibido = new Usuarios(req.body);
         
         const usuario = await Usuarios.findOne({ nombre: usuarioRecibido.nombre, password: usuarioRecibido.password });
 
-    
+      
         if (usuario) {
+            const usuarioSinImagen = {
+                _id: usuario._id,
+                nombre: usuario.nombre,
+                password: usuario.password,
+                email: usuario.email,
+                valoracion: usuario.valoracion,
+                plan: usuario.plan,
+                saldo: usuario.saldo
+            };
             // req.session.usuario = usuario.nombre;
-            return res.status(200).send({accessToken: auth.generarToken(usuario)});
+            return res.status(200).send({accessToken: auth.generarToken(usuarioSinImagen)});
         } else {
             return res.status(401).send({ error: "Usuario o contraseña incorrectos" });
         }
