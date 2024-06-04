@@ -2,6 +2,8 @@ const express = require('express');
 let router = express.Router();
 
 const Transaccion = require('../models/transaccion');
+const Usuarios = require('../models/usuario');
+
 
 
 router.post('/', async (req, res) => {
@@ -204,11 +206,27 @@ router.post('/:id/true', (req, res) => {
   
     Transaccion.findByIdAndUpdate(id, { estado: estadoActualizado, finalComprador: req.params.idComprador, finalVendedor: req.params.idVendedor }, { new: true })
       .then((resultado) => {
+        Usuarios.findById(req.params.idComprador)
+        .then((comprador) => {
+          comprador.saldo = comprador.saldo - resultado.propuesta;
+          comprador.save();
+        });
+
+        Usuarios.findById(req.params.idVendedor).then((vendedor) => {
+          vendedor.saldo = vendedor.saldo + resultado.propuesta;
+          vendedor.save();
+        });
         res.status(200).send({ transaccion: resultado });
+        
       })
+      
       .catch((error) => {
         res.status(500).send({ error: 'Error interno del servidor' });
       });
+    
   });
+
+
+
 
 module.exports = router;

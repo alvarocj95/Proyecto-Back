@@ -5,6 +5,28 @@ const fs = require("fs");
 const auth = require('../utils/auth');
 
 
+router.get('/validate', async (req, res) => {
+    try {
+      
+    let token = req.headers['authorization'];
+
+  
+    if (token && token.startsWith("Bearer "))
+          token = token.slice(7);
+  
+    let resultado = auth.validarToken(token);
+  
+      if (resultado) {
+        res.status(200).send({ message: 'Token is valid' });
+      } else {
+        res.status(401).send({ message: 'Invalid token' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'Internal server error' });
+    }
+  });
+
 router.post('/login', async (req, res) => {
     try {
         const usuarioRecibido = new Usuarios(req.body);
@@ -43,6 +65,7 @@ router.post('/register', async (req, res) => {
     try {
         const usuario = new Usuarios(req.body);
         await usuario.save();
+        res.status(200).send({ usuario: usuario });
        
     } catch (error) {
         console.error(error);

@@ -26,7 +26,11 @@ let usuarioSchema = new mongoose.Schema({
     saldo:{
         type: Number,
         default: 0
-    }
+    },
+    tarjetas: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tarjetas' }], 
+        default: []
+      }
 })
 
 let Usuario = mongoose.model('usuarios', usuarioSchema);
